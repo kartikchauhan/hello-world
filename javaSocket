@@ -1,0 +1,43 @@
+    import java.io.*;  
+    import java.net.*; 
+	import java.io.InputStream ;
+	import java.util.Scanner;
+
+    public class client {  
+    public static void main(String[] args) {  
+    try{      
+    Socket s=new Socket("localhost",6666);  
+    DataOutputStream dout=new DataOutputStream(s.getOutputStream());  
+    
+    Scanner scanner = new Scanner( System.in );
+
+    // 2. Don't forget to prompt the user
+    System.out.print( "Type Message to send to Server " );
+
+    // 3. Use the Scanner to read a line of text from the user.
+    String input = scanner.nextLine();
+    dout.writeUTF(input);  //
+    
+    dout.flush();  
+    dout.close();  
+    s.close();  
+    }catch(Exception e){System.out.println(e);}  
+    }  
+    }  
+    
+    
+    // server
+    import java.io.*;  
+    import java.net.*;  
+    public class server {  
+    public static void main(String[] args){  
+    try{  
+    ServerSocket ss=new ServerSocket(6666);  
+    Socket s=ss.accept();//establishes connection   
+    DataInputStream dis=new DataInputStream(s.getInputStream());  
+    String  str=(String)dis.readUTF();  
+    System.out.println("message= "+str);  
+    ss.close();  
+    }catch(Exception e){System.out.println(e);}  
+    }  
+    }  
